@@ -1,0 +1,11 @@
+dir-0_0 10838 None
+dir-15_0 21014 None
+dir-30_0 13460 None
+dir-36_0 11700 None
+dir-35_0 12603 None
+dir-81_0 19598 None
+dir-18_0 27755 None
+dir-23_0 46771 None
+dir-29_0 16942 None
+dir-44_0 18799 None
+dir-56_0 13386 None

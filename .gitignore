@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.egg-info
+dist
+.DS_Store
+logdir
+scores
+pretrained_models
+.vscode/
+.idea
+wmlib/envs/dmcr/assets

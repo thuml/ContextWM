@@ -1,0 +1,23 @@
+name: wmlib
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8.13
+  - pip=22.1.2
+  - cudatoolkit=11.3
+  - pip:
+    - -f https://download.pytorch.org/whl/cu113/torch_stable.html
+    - torch==1.12.1+cu113
+    - torchvision==0.13.1+cu113
+    - numpy==1.23
+    - kornia==0.6.5
+    - dm_control==0.0.318037100
+    - protobuf==3.20.3
+    - gym==0.19
+    - torchtyping
+    - einops
+    - ruamel.yaml
+    - tqdm
+    - tensorboard

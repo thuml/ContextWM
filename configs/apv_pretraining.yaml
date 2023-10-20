@@ -1,0 +1,248 @@
+defaults:
+
+  # Train Script
+  logdir: /dev/null
+  load_logdir: /dev/null
+  load_model_dir: /dev/null
+  video_dir: /dev/null
+  video_dirs: [empty]
+  seed: 0
+  task: dmc_walker_walk
+  render_size: [64, 64]
+  dmc_camera: -1
+  camera: none
+  atari_grayscale: True
+  time_limit: 0
+  action_repeat: 1
+  steps: 1e8
+  log_every: 1e4
+  video_every: 2000
+  eval_every: 5000
+  pretrain: 1
+  train_every: 5
+  train_steps: 1
+  replay: {capacity: 2e6, ongoing: False, minlen: 50, maxlen: 50, prioritize_ends: True}
+  dataset: {batch: 16, length: 50}
+  log_keys_video: ['image']
+  log_keys_sum: '^$'
+  log_keys_mean: '^$'
+  log_keys_max: '^$'
+  precision: 16
+  jit: True
+
+  eval_video_list: none
+  save_all_models: False
+
+  # Agent
+  clip_rewards: tanh
+
+  # World Model
+  grad_heads: [decoder]
+  rssm: {action_free: True, fill_action: 50, ensemble: 1, hidden: 1024, deter: 1024, stoch: 32, discrete: 32, act: elu, norm: none, std_act: sigmoid2, min_std: 0.1}
+  encoder_type: resnet # ['plaincnn', 'resnet', 'ctx_resnet']
+  encoder: {
+    mlp_keys: '.*', 
+    cnn_keys: '.*', 
+    act: elu, 
+    norm: none, 
+    cnn_depth: 48, 
+    cnn_kernels: [4, 4, 4, 4], 
+    mlp_layers: [400, 400, 400, 400], 
+    res_norm: 'batch',
+    res_depth: 3,
+    res_layers: 2,
+  }
+  decoder_type: resnet # ['plaincnn', 'resnet', 'ctx_resnet']
+  decoder: {
+    mlp_keys: '.*', 
+    cnn_keys: '.*', 
+    act: elu, 
+    norm: none, 
+    cnn_depth: 48, 
+    cnn_kernels: [5, 5, 6, 6], 
+    mlp_layers: [400, 400, 400, 400], 
+    res_norm: 'batch',
+    res_depth: 3,
+    res_layers: 2,
+  }
+  loss_scales: {
+    kl: 1.0, 
+    image: 1.0
+  }
+  kl: {free: 0.0, forward: False, balance: 0.8, free_avg: True}
+  model_opt: {opt: adam, lr: 1e-4, eps: 1e-5, clip: 100, wd: 1e-6}
+  
+  dataset_type: replay
+  video_list: none
+  video_lists: [empty]
+  manual_labels: False
+  # num_workers: 8
+
+  # Contextualized World Model
+  encoder_ctx: {
+    ctx_res_layers: 2, 
+    ctx_cnn_depth: 48,
+    ctx_cond_choice: trand,
+  }
+  decoder_ctx: {
+    ctx_attmask: 0.75,
+  }
+
+
+atari_pretrain:
+
+  task: atari_pong
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  time_limit: 27000
+  action_repeat: 4
+  steps: 5e7
+  log_every: 500
+  train_every: 5
+  clip_rewards: tanh
+  rssm: {hidden: 600, deter: 600}
+  grad_heads: [decoder]
+  model_opt.lr: 2e-4
+  # loss_scales.kl: 0.1
+
+
+metaworld_pretrain:
+
+  task: metaworld_door_open
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  replay: {minlen: 25, maxlen: 25}
+  dataset: {batch: 16, length: 25}
+  action_repeat: 1
+  steps: 5e7
+  log_every: 100
+  train_every: 1
+  rssm: {hidden: 1024, deter: 1024}
+  grad_heads: [decoder]
+  model_opt.lr: 3e-4
+  # loss_scales.kl: 0.1
+
+
+something_pretrain:
+
+  task: metaworld_door_open
+  video_dir: /data/something-something-v2/20bn-something-something-v2-frames-64
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  replay: {minlen: 25, maxlen: 25}
+  dataset: {batch: 16, length: 25}
+  action_repeat: 1
+  steps: 5e7
+  log_every: 100
+  train_every: 1
+  rssm: {hidden: 1024, deter: 1024}
+  grad_heads: [decoder]
+  model_opt.lr: 3e-4
+  # loss_scales.kl: 0.1
+
+  dataset_type: something
+  video_list: train_video_folder
+  manual_labels: False
+
+
+dmc_vision_pretrain:
+  task: dmc_walker_walk
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  action_repeat: 2
+  log_every: 500
+  pretrain: 100
+  clip_rewards: identity
+  replay.prioritize_ends: False
+  grad_heads: [decoder]
+  rssm: {hidden: 200, deter: 200}
+  model_opt.lr: 3e-4
+  kl.free: 1.0
+
+
+debug:
+  jit: False
+  time_limit: 100
+  eval_every: 300
+  log_every: 300
+  pretrain: 1
+  train_steps: 1
+  replay: {minlen: 10, maxlen: 30}
+  dataset: {batch: 10, length: 10}
+
+
+small:
+  rssm: {hidden: 200, deter: 200}
+
+
+plainresnet:
+  encoder_type: resnet
+  decoder_type: resnet
+
+
+contextualized:
+  encoder_type: ctx_resnet
+  decoder_type: ctx_resnet
+
+
+human_pretrain:
+
+  task: metaworld_door_open
+  video_dir: /data/human_64x64/human_trace
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  replay: {minlen: 25, maxlen: 25}
+  dataset: {batch: 16, length: 25}
+  action_repeat: 1
+  steps: 5e7
+  log_every: 100
+  train_every: 1
+  rssm: {hidden: 1024, deter: 1024}
+  grad_heads: [decoder]
+  model_opt.lr: 3e-4
+  # loss_scales.kl: 0.1
+
+  dataset_type: human
+  video_list: human_full
+
+
+ytb_pretrain:
+
+  task: metaworld_door_open
+  video_dir: /data/ytb_driving_vid/ytb64x64
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  replay: {minlen: 25, maxlen: 25}
+  dataset: {batch: 16, length: 25}
+  action_repeat: 1
+  steps: 5e7
+  log_every: 100
+  train_every: 1
+  rssm: {hidden: 1024, deter: 1024}
+  grad_heads: [decoder]
+  model_opt.lr: 3e-4
+  # loss_scales.kl: 0.1
+
+  dataset_type: ytb
+  video_list: ytb_full
+
+
+mixture_pretrain:
+
+  task: metaworld_door_open
+  video_dirs: [/data/something-something-v2/20bn-something-something-v2-frames-64, /data/human_64x64/human_trace, /data/ytb_driving_vid/ytb64x64]
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  replay: {minlen: 25, maxlen: 25}
+  dataset: {batch: 16, length: 25}
+  action_repeat: 1
+  steps: 1200002
+  log_every: 100
+  train_every: 1
+  rssm: {hidden: 1024, deter: 1024}
+  grad_heads: [decoder]
+  model_opt.lr: 3e-4
+  # loss_scales.kl: 0.1
+
+  dataset_type: mixture
+  video_lists: [train_val_video_folder, human_full, ytb_full]
