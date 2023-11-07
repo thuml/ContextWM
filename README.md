@@ -59,7 +59,6 @@ export PYTHONPATH=$PYTHONPATH:{path to CARLA}/PythonAPI/carla/dist/carla-0.9.11-
 
 ## Datasets
 
-<!-- TODO -->
 
 **Something-Something-V2 (*Recommended*)**
 
@@ -155,11 +154,11 @@ Note that for the drawer open task, we find removing `--encoder_ctx.ctx_aug eras
 
 **DMC Remastered**
 
-<!-- TODO -->
 
 ```
 python examples/train_apv_finetuning.py --logdir {save path} --configs dmc_remastered contextualized --task dmcr_{task, e.g. walker_run} --seed 0 --loss_scales.reward 1.0 --loss_scales.aux_reward 1.0 --load_logdir {path to the pre-trained models}
 ```
+Note that you need to add `dmcr_hopper` to `--configs` when running the DMCR Hopper Stand task. The `dmcr_hopper` option fixes the camera's position, as we find it is too difficult for the agent to learn when the camera is randomly positioned and rotated in this task.
 
 **CARLA**
 
