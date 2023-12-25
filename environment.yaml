@@ -18,6 +18,6 @@ dependencies:
     - gym==0.19
     - torchtyping
     - einops
-    - ruamel.yaml
+    - ruamel.yaml==0.17.21
     - tqdm
     - tensorboard
