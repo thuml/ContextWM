@@ -3,6 +3,7 @@ wget http://visiondata.cis.upenn.edu/volumetric/h36m/h36m_annot.tar
 tar -xf h36m_annot.tar
 rm h36m_annot.tar
 mv h36m/annot/*.h5 ./
+mv h36m/annot/*.txt ./
 
 # Download H36M images
 mkdir human
