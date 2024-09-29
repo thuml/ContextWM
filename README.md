@@ -112,7 +112,7 @@ We have already included the generated data lists in this repo (see `data/ytb_dr
 We provide our pre-trained world models:
 
 - ContextWM pre-trained on Something-Something-V2 (*Recommended*), Human3.6M, YouTubeDriving, assembled three datasets, and [RLBench dataset from APV](https://drive.google.com/drive/folders/1Qk9fvC1OGxrbVFGm0zrPmAmV8lu4_l8D), respectively
-- Vanilla WM pre-trained on Something-Something-V2
+- Plain WM pre-trained on Something-Something-V2
 
 You can obtain them from [[Google Drive](https://drive.google.com/drive/folders/1nCTU-MZYS7ssxNusPX_k1XnhKdmrptgD?usp=share_link)] or [[Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/901049483a674e80b1e0/)].
 
@@ -190,13 +190,13 @@ python examples/train_apv_finetuning.py --logdir {save path} --configs metaworld
 
 ## Tips
 
-Mixed precision are enabled by default, which is faster but can probably cause numerical instabilities. It is normal to encounter infinite gradient norms, and the training may be interrupted by `nan` values. You can pass `--precision 32` to disable mixed precision.
+Mixed precision is enabled by default, which is faster but can probably cause numerical instabilities. It is normal to encounter infinite gradient norms, and the training may be interrupted by `nan` values. You can pass `--precision 32` to disable mixed precision.
 
 See also the tips available in [DreamerV2 repository](https://github.com/danijar/dreamerv2).
 
 ## Contact
 
-If you have any question, please contact wujialong0229@gmail.com .
+If you have any questions, please contact wujialong0229@gmail.com .
 
 ## Acknowledgement
 
